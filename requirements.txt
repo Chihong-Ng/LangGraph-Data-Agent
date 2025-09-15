@@ -1,0 +1,12 @@
+langgraph
+langchain-core
+langchain-deepseek
+langchain-tavily
+python-dotenv
+langsmith
+pydantic
+matplotlib
+seaborn
+pandas
+pymysql
+scikit-learn

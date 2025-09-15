@@ -1,5 +1,5 @@
 # LangGraph Cli 构建智能数据分析助手
-使用LangGraph的开发生态，来创建一个具备数据库查询和数据可视化功能的智能数据分析助手Data Agent。
+使用LangGraph的开发生态，创建了一个具备数据库查询和数据可视化功能的智能数据分析助手Data Agent。
 实现方法：利用LangGraph 库的create_react_agent快速构建能够根据用户输入进行推理，并动态决定是否需要调用外部工具的智能代理，并绑定了5个工具函数：数据库查询、数据提取、代码执行、绘图工具和搜索工具（详见graph.py）。
 然后用LangGraph Cli建立后端服务，agent-chat-ui 开启前端服务。
 ## 使用说明

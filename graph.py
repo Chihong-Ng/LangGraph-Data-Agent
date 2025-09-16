@@ -209,7 +209,7 @@ prompt = """
    - 当用户希望将数据库中的表格导入Python环境进行后续分析时，请调用`extract_data`工具。
    - 你需要根据用户提供的表名或查询条件生成SQL查询语句，并将数据保存到指定的pandas变量中。
 
-3. **非绘图累任务的Python代码执行：**
+3. **非绘图类任务的Python代码执行：**
    - 当用户需要执行Python脚本或进行数据处理、统计计算时，请调用`python_inter`工具。
    - 仅限执行非绘图类代码，例如变量定义、数据分析等。
 
@@ -248,4 +248,5 @@ tools = [search_tool, python_inter, fig_inter, sql_inter, extract_data]
 model = ChatDeepSeek(model="deepseek-chat")
 
 # 创建图 （Agent）
+
 graph = create_react_agent(model=model, tools=tools, prompt=prompt)

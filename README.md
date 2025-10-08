@@ -1,9 +1,5 @@
 # Data Agent 智能数据分析助手
 
-基于LangGraph的开发生态，创建的一个同时具备数据库查询和Python代码解释器功能的智能数据分析助手。
-
-## 项目简介
-
 Data Agent 是一个智能数据分析平台，它能够根据用户的自然语言提问，自动进行数据库查询、数据处理和可视化分析。该项目结合了大语言模型的推理能力与数据处理工具，为用户提供直观、高效的数据洞察体验。
 
 ## 功能特性
@@ -133,15 +129,6 @@ data-agent/
 └── README.md            # 项目说明文档
 ```
 
-## 开机自启动配置
-
-项目包含了systemd服务文件模板，可用于配置系统开机自启动：
-
-1. 后端服务配置：`backend/data-agent-backend.service`
-2. 前端服务配置：`frontend/data-agent-frontend.service`
-3. 前端启动脚本：`frontend/start_frontend.sh`
-
-详细配置步骤请参考`INSTALL_GUIDE.md`文件。
 
 ## 数据说明
 
@@ -153,11 +140,3 @@ data-agent/
 2. 首次运行可能需要安装额外的系统依赖
 3. 如有端口冲突，请修改配置文件中的端口号
 4. 服务启动后，请通过前端界面访问系统，不要直接调用后端API
-
-## 许可证
-
-MIT License
-
-## 贡献
-
-欢迎提交Issue和Pull Request来改进此项目。

@@ -1,44 +1,163 @@
-# LangGraph Cli 构建智能数据分析助手
-使用LangGraph的开发生态，创建了一个具备数据库查询和数据可视化功能的智能数据分析助手Data Agent。
-实现方法：利用LangGraph 库的create_react_agent快速构建能够根据用户输入进行推理，并动态决定是否需要调用外部工具的智能代理，并绑定了5个工具函数：数据库查询、数据提取、代码执行、绘图工具和搜索工具（详见graph.py）。
-然后用LangGraph Cli建立后端服务，agent-chat-ui 开启前端服务。
-## 使用说明
-### 创建项目文件夹，复制graph.py和requirements.txt，安装依赖
+# Data Agent 智能数据分析助手
+
+基于LangGraph的开发生态，创建的一个同时具备数据库查询和Python代码解释器功能的智能数据分析助手。
+
+## 项目简介
+
+Data Agent 是一个智能数据分析平台，它能够根据用户的自然语言提问，自动进行数据库查询、数据处理和可视化分析。该项目结合了大语言模型的推理能力与数据处理工具，为用户提供直观、高效的数据洞察体验。
+
+## 功能特性
+
+- **自然语言交互**：通过对话方式提问，无需编写SQL或Python代码
+- **数据库查询**：自动将自然语言转换为SQL查询语句并执行
+- **数据可视化**：自动生成图表展示分析结果
+- **代码执行**：支持Python代码执行，进行复杂的数据处理
+- **会话管理**：支持多轮对话，保持上下文连贯性
+- **数据提取**：从查询结果中提取关键信息
+- **搜索工具**：集成搜索引擎，补充外部知识
+
+## 技术栈
+
+### 后端
+- Python 3.11+
+- LangGraph
+- LangChain
+- FastAPI
+- MySQL
+- Pandas
+- Matplotlib/Seaborn
+
+### 前端
+- Vue 3
+- TypeScript
+- Vite
+
+## 安装指南
+
+### 1. 克隆项目
+
+```bash
+git clone https://github.com/Chihong-Ng/data-agent.git
+cd data-agent
 ```
+
+### 2. 设置Python虚拟环境
+
+```bash
+# 创建虚拟环境
+python -m venv ace_env
+
+# 激活虚拟环境
+# Linux/MacOS
+source ace_env/bin/activate
+# Windows
+# ace_env\Scripts\activate
+```
+
+### 3. 安装后端依赖
+
+```bash
+cd backend
 pip install -r requirements.txt
 ```
-### 编辑.env文件
-填入相应的api key，并根据本地安装的MySQL进行设置
-### 创建langgraph.json文件，用于LangGraph Cli读取配置
-```josn
-{
-  "dependencies": ["./"],
-  "graphs": {
-    "data_agent": "./graph.py:graph"
-  },
-  "env": ".env"
-}
+
+### 4. 配置环境变量
+
+在backend目录下创建`.env`文件，并填入以下内容：
+
+```env
+# 大模型API配置
+DEEPSEEK_API_KEY=your_deepseek_api_key
+
+# 数据库配置
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=telco_data
+
+# Tavily搜索API配置（可选）
+TAVILY_API_KEY=your_tavily_api_key
 ```
-这里将当前的Agent取名为data_agent
-### 开启后端服务
-配置并开启MySQL服务，然后在终端运行以下命令开启后端服务：
+
+### 5. 安装前端依赖
+
 ```bash
-langgraph dev
+cd ../frontend
+npm install
 ```
-### 开启前端服务
-利用LangChain官方提供的agent-chant-ui开启前端服务（需要安装Node.js）：
+
+## 使用说明
+
+### 启动后端服务
+
 ```bash
-git clone https://github.com/langchain-ai/agent-chat-ui.git
-cd agent-chat-ui
-pnpm install
-pnpm dev
+cd ../backend
+uvicorn main:app --reload
 ```
-然后登录并进行测试，这里需要写清楚Agent名称：
-<img width="1605" height="1174" alt="image" src="https://github.com/user-attachments/assets/1da0b4da-3a36-431d-ac76-273db9d52629" />
 
-这样就可以进行对话了
-<img width="2544" height="1360" alt="image" src="https://github.com/user-attachments/assets/a4807477-3073-43c1-baba-cc1e0a49b41e" />
-<img width="2537" height="1361" alt="image" src="https://github.com/user-attachments/assets/a6104706-1627-45cd-bb74-e49f38a5e83b" />
+后端服务将运行在 http://localhost:8000
 
+### 启动前端服务
 
-### 
+```bash
+cd ../frontend
+npm run dev
+```
+
+前端服务将运行在 http://localhost:5173
+
+### 会话管理
+
+- 系统自动为每个用户创建会话ID，并存储在浏览器localStorage中
+- 支持多轮对话，大模型可以记住上下文
+- 点击页面顶部的清除按钮可重置对话历史
+
+## 项目结构
+
+```
+data-agent/
+├── backend/             # 后端代码
+│   ├── main.py          # 主程序入口
+│   ├── requirements.txt # Python依赖
+│   ├── .env             # 环境变量配置
+│   └── telco_data.csv   # 示例数据集
+├── frontend/            # 前端Vue项目
+│   ├── src/             # 前端源码
+│   │   ├── App.vue      # 主应用组件
+│   │   ├── main.ts      # 入口文件
+│   │   └── style.css    # 样式文件
+│   ├── package.json     # npm依赖配置
+│   └── vite.config.ts   # Vite配置
+├── ace_env/             # Python虚拟环境
+├── INSTALL_GUIDE.md     # 安装指南
+└── README.md            # 项目说明文档
+```
+
+## 开机自启动配置
+
+项目包含了systemd服务文件模板，可用于配置系统开机自启动：
+
+1. 后端服务配置：`backend/data-agent-backend.service`
+2. 前端服务配置：`frontend/data-agent-frontend.service`
+3. 前端启动脚本：`frontend/start_frontend.sh`
+
+详细配置步骤请参考`INSTALL_GUIDE.md`文件。
+
+## 数据说明
+
+项目包含电信客户数据集（`telco_data.csv`），包含客户的基本信息、服务使用情况和账单信息等字段，用于演示数据分析功能。
+
+## 注意事项
+
+1. 请确保已正确配置环境变量，特别是API密钥和数据库连接信息
+2. 首次运行可能需要安装额外的系统依赖
+3. 如有端口冲突，请修改配置文件中的端口号
+4. 服务启动后，请通过前端界面访问系统，不要直接调用后端API
+
+## 许可证
+
+MIT License
+
+## 贡献
+
+欢迎提交Issue和Pull Request来改进此项目。
